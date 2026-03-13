@@ -6,14 +6,14 @@ StoneGolem::StoneGolem(std::string name, int maxHp, int maxToughness)
 {
 }
 
-int StoneGolem::performAttack()
+ActionResult StoneGolem::performAttack()
 {
     ++m_turnCount;
     if (m_turnCount % 3 == 0)
     {
         std::cout << "  >> " << m_name
             << " raises both fists -- GROUND SLAM! <<\n";
-        return 35;
+        return ActionResult{ ActionResult::Type::Damage, 35 };
     }
-    return 20;
+    return ActionResult{ ActionResult::Type::Damage, 20 };
 }

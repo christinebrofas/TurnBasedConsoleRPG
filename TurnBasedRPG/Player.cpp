@@ -1,8 +1,14 @@
 #include "Player.h"
+#include "Character.h"
+#include "ActionResult.h"
 #include <algorithm>
 
 Player::Player(std::string name)
     : Character{ std::move(name), 120 }
+{
+}
+Player::Player(std::string name, int maxHp)
+    : Character{ std::move(name), maxHp }
 {
 }
 
@@ -20,23 +26,23 @@ void Player::gainEnergy(int amount)
     m_energy = std::min(kMaxEnergy, m_energy + amount);
 }
 
-int Player::basicAttack()
+ActionResult Player::basicAttack()
 {
     gainSp(1);
     gainEnergy(20);
-    return 15;
+    return ActionResult{ ActionResult::Type::Damage, 15 };
 }
 
-int Player::useSkill()
+ActionResult Player::useSkill()
 {
     --m_sp;
     gainEnergy(30);
-    return 28;
+    return ActionResult{ ActionResult::Type::Damage, 28 };
 }
 
-int Player::useUltimate()
+ActionResult Player::useUltimate()
 {
     m_energy = 0;
     gainSp(2);
-    return 60;
+    return ActionResult{ ActionResult::Type::Damage, 60 };
 }

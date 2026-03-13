@@ -1,4 +1,7 @@
 #include "Battle.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "ActionResult.h"
 #include <iostream>
 #include <limits>
 
@@ -68,11 +71,11 @@ void Battle::playerTurn()
 
         if (choice == 1)
         {
-            int dmg{ m_player.basicAttack() };
-            m_enemy.takeDamage(dmg);
+            ActionResult result{ m_player.basicAttack() };
+            m_enemy.takeDamage(result.value);
             m_enemy.reduceToughness(kBasicToughDmg);
             std::cout << m_player.getName()
-                << " uses Basic Strike! Deals " << dmg << " damage.\n";
+                << " uses Basic Strike! Deals " << result.value << " damage.\n";
             break;
         }
         else if (choice == 2)
@@ -82,11 +85,11 @@ void Battle::playerTurn()
                 std::cout << "Not enough SP.\n";
                 continue;
             }
-            int dmg{ m_player.useSkill() };
-            m_enemy.takeDamage(dmg);
+            ActionResult result{ m_player.useSkill() };
+            m_enemy.takeDamage(result.value);
             m_enemy.reduceToughness(kSkillToughDmg);
             std::cout << m_player.getName()
-                << " uses Skill! Deals " << dmg << " damage.\n";
+                << " uses Skill! Deals " << result.value << " damage.\n";
             break;
         }
         else if (choice == 3)
@@ -96,11 +99,11 @@ void Battle::playerTurn()
                 std::cout << "Ultimate is not ready yet.\n";
                 continue;
             }
-            int dmg{ m_player.useUltimate() };
-            m_enemy.takeDamage(dmg);
+            ActionResult result{ m_player.useUltimate() };
+            m_enemy.takeDamage(result.value);
             m_enemy.reduceToughness(kUltToughDmg);
             std::cout << m_player.getName()
-                << " activates Ultimate! Deals " << dmg << " damage!\n";
+                << " activates Ultimate! Deals " << result.value << " damage!\n";
             break;
         }
         else
@@ -123,9 +126,25 @@ void Battle::enemyTurn()
         return;
     }
 
-    int dmg{ m_enemy.performAttack() };
-    m_player.takeDamage(dmg);
-    std::cout << m_enemy.getName() << " attacks for " << dmg << " damage!\n";
+    ActionResult result{ m_enemy.performAttack() };
+
+    switch (result.type)
+    {
+    case ActionResult::Type::Damage:
+        m_player.takeDamage(result.value);
+        std::cout << m_enemy.getName()
+            << " attacks for " << result.value << " damage!\n";
+        break;
+    case ActionResult::Type::Heal:
+        m_enemy.heal(result.value);
+        std::cout << m_enemy.getName()
+            << " regenerates " << result.value << " HP!\n";
+        break;
+    case ActionResult::Type::Charge:
+        std::cout << m_enemy.getName()
+            << " is charging up! Next attack +" << result.value << " damage!\n";
+        break;
+    }
 }
 
 void Battle::run()

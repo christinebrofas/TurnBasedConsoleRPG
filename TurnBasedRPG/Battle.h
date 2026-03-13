@@ -1,6 +1,6 @@
 #pragma once
-#include "Player.h"
-#include "Enemy.h"
+class Player;   
+class Enemy;
 
 // Owns the main combat loop.
 // Holds references to the Player and Enemy created in main().
@@ -24,4 +24,4 @@ private:
     void playerTurn();
     void enemyTurn();
 };
-#pragma once
+

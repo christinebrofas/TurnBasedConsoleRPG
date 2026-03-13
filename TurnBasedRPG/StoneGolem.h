@@ -12,7 +12,7 @@ public:
     // Every third call deals 35 damage (heavy ground slam).
     // All other calls deal 20 damage.
     // override tells the compiler to verify this matches a virtual in Enemy.
-    int performAttack() override;
+    ActionResult performAttack() override;
 
 private:
     int m_turnCount{ 0 };

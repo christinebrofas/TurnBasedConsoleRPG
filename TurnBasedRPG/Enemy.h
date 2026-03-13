@@ -1,6 +1,6 @@
 #pragma once
 #include "Character.h"
-
+#include "ActionResult.h"
 // Represents a single enemy unit.
 // Inherits HP from Character and adds a Toughness break gauge.
 class Enemy : public Character
@@ -21,7 +21,7 @@ public:
 
     // Returns the HP damage dealt to the player this turn.     
     // // Derived classes override this to implement specific attack patterns.
-    virtual int performAttack();
+    virtual ActionResult performAttack();
 
 private:
     int  m_toughness{};

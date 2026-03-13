@@ -27,7 +27,7 @@ void Enemy::recoverFromBreak()
     m_isBroken = false;
 }
 
-int Enemy::performAttack()
+ActionResult Enemy::performAttack()
 {
-    return 20;
+    return ActionResult{ ActionResult::Type::Damage, 20 };
 }
