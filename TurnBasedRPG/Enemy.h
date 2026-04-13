@@ -1,6 +1,10 @@
 #pragma once
 #include "Character.h"
 #include "ActionResult.h"
+#include<optional>
+#include "Drop.h"
+
+
 // Represents a single enemy unit.
 // Inherits HP from Character and adds a Toughness break gauge.
 class Enemy : public Character
@@ -22,10 +26,14 @@ public:
     // Returns the HP damage dealt to the player this turn.     
     // // Derived classes override this to implement specific attack patterns.
     virtual ActionResult performAttack();
+    bool hasDrop() const;
 
 private:
     int  m_toughness{};
     int  m_maxToughness{};
     bool m_isBroken{ false };
+    std::optional<Drop> m_drop{};
 };
 
+Enemy(std::string name, int maxHP, int maxToughness, std::optional<Drop> drop = std::nullopt);
+const std::optional<Drop>& getDrop() const; 

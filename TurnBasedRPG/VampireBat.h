@@ -1,14 +1,13 @@
+
 #pragma once
 
 #include "Enemy.h"
 
 
-class Slime : public Enemy
+class VampireBat : public Enemy
 {
 public:
-    Slime(std::string name, int maxHp, int maxToughness);
-
-    
+    VampireBat(std::string name, int maxHp, int maxToughness);
     ActionResult performAttack() override;
 
 private:
